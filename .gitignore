@@ -1,4 +1,4 @@
-# root directory
+# Virtual environment (venv)
 .venv
 
 # 07 - Using SQLAlchemy Database
