@@ -1,4 +1,13 @@
-# Learn-Flask
+# Learn Flask
+
+## Table of Contents
+- [Getting Started](#getting-started)
+- [How to make a website with Python](#01-how-to-make-a-website-with-python)
+- [HTML Templates](#02-html-templates)
+
+
+
+## Getting Started
 
 Flask is a micro web framework written in Python. It's used to build web applications quickly and with minimal code.
 
@@ -8,7 +17,8 @@ Flask is a micro web framework written in Python. It's used to build web applica
 - RESTful request handling.
 - Easily extendable with plugins (e.g., for databases, authentication, etc.).
 
-### Content
+
+### Basic code snippet to create a server using flask
 
 ```python
 from flask import Flask
@@ -22,10 +32,18 @@ Models and routes
 ================= 
 """
 
+Visit [localhost:5000](http://127.0.0.1:5000) in your browser.
 
 if __name__ == "__main__":
     app.run()
 ```
+
+You need to restart the server manually for every change to display it in webpage. If you want the server to detect the change and restart itself, you can use a parameter **debug** in **run**.
+```python
+app.run(debug=True)
+```
+
+
 
 ## 01) How to make a website with Python
 
@@ -65,6 +83,8 @@ def test():
 def test():
     return redirect(url_for("user", name = "Samm"))    # Redirection to dynamic routes
 ```
+
+
 
 ## 02) HTML templates
 
