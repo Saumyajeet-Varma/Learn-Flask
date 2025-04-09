@@ -1,0 +1,9 @@
+# root directory
+.venv
+
+# 07 - Using SQLAlchemy Database
+instance/
+
+# 09 - Blueprints
+# 10 - Handling multiple Python files
+__pycache__/
