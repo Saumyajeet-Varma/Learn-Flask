@@ -32,11 +32,11 @@ Models and routes
 ================= 
 """
 
-Visit [localhost:5000](http://127.0.0.1:5000) in your browser.
-
 if __name__ == "__main__":
     app.run()
 ```
+
+Visit [localhost:5000](http://127.0.0.1:5000) in your browser.
 
 You need to restart the server manually for every change to display it in webpage. If you want the server to detect the change and restart itself, you can use a parameter **debug** in **run**.
 ```python
