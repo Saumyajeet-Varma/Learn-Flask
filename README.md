@@ -348,6 +348,7 @@ def login():
 def home():
     return render_template('home.html')
 ```
+> *flash(message)* - 	Stores a message for the next view
 
 ###  In Your Template (home.html, login.html, etc.):
 ```python
@@ -361,6 +362,8 @@ def home():
   {% endif %}
 {% endwith %}
 ```
+
+> *get_flashed_messages()* - Retrieves and clears flashed messages
 
 ### Flash Message Categories (Optional but useful!)
 | Category   | Purpose                     | Example Usage                            |
