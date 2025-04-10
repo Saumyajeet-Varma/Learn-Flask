@@ -485,6 +485,6 @@ Now how to access the static files
 
 ```html
 <!-- JavaScript files -->
-    <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+<script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
 ```
 
