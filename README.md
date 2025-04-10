@@ -2,8 +2,9 @@
 
 ## Table of Contents
 - [Getting Started](#getting-started)
-- [How to make a website with Python](#01-how-to-make-a-website-with-python)
+- [How to make a Website with Python](#01-how-to-make-a-website-with-python)
 - [HTML Templates](#02-html-templates)
+- [Template Inheritance](#03-template-inheritance)
 
 
 
@@ -131,3 +132,54 @@ How to use template variable in HTML
 {% endfor %}
 ```
 > {{ }} is used to show the value. <br> {% %} is used to write python code.
+
+## 03) Template inheritance
+
+In this section we'll learn the concept of **Template inheritance**.
+
+Template inheritance in Flask (via Jinja2) allows you to create a base HTML structure that other templates can extend. This promotes reusability and consistency across your web pages.
+
+### Basic Structure
+1. Create a base template
+```html
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Website{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Website</h1>
+    </header>
+    
+    <main>
+        {% block content %}
+        <!-- Child templates inject content here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025</p>
+    </footer>
+</body>
+</html>
+```
+
+2. Extend the base in a child template
+```html
+<!-- templates/home.html -->
+{% extends "base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+    <p>This is the home page content.</p>
+{% endblock %}
+```
+
+### How it works
+- {% extends "base.html" %} tells Jinja to use the layout from base.html.
+- {% block %} tags in the base file are placeholders that the child templates fill in.
+- {% block block_name %}  a block name is an identifier you define inside the {% block ... %} tag. It's like a placeholder section in your base template that child templates can override or fill in.
