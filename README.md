@@ -544,4 +544,4 @@ if __name__ == '__main__':
 ```
 > register_blueprint("blueprint_name", url_prefix="/prefix_route") <br> *url_prefix is optional*
 
-> For better clarity checkout the code given in the [09 - Blueprints and Handling multiple Python files](https://github.com/Saumyajeet-Varma/Learn-Flask/tree/main/10%20-%20Handling%20multiple%20Python%20files)
+> For better clarity checkout the code given in the [09 - Blueprints and Handling multiple Python files](https://github.com/Saumyajeet-Varma/Learn-Flask/tree/main/09%20-%20Blueprints%20and%20Handling%20multiple%20Python%20files)
