@@ -11,6 +11,7 @@
 - [Session](#05-session)
 - [Message Flashing](#06-message-flashing)
 - [Using SQLAlchemy Database](#07-using-sqlalchemy-database)
+- [Handling Static Files](#08-handling-static-files)
 
 
 
@@ -391,7 +392,6 @@ pip install flask-sqlalchemy
 ```
 
 ### Basic setup
-After Installing Flask_SQLAlchemy, we neet to set it up
 ```python
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -419,7 +419,7 @@ class User(db.Model):
 ```
 > column_name = db.Column(column_datatype, ...optional_arguements) <br>
 > `__init__`: You can define an `__init__` method, but you don't need to if you're just assigning attributes that match the model fields. SQLAlchemy auto-generates a default constructor unless you want custom behavior. <br>
-> `__repr__`: Defines how the object is represented as a string (for debugging/logs)
+> `__repr__`: Defines how the object is represented as a string (for debugging/logs).
 
 ### Creating a database
 ```python
@@ -447,3 +447,44 @@ db.session.commit()
 db.session.delete(user)
 db.session.commit()
 ```
+
+
+
+## 08) Handling static files
+
+In this section we'll learn how to handle **static files** in Flask
+
+We create a separate folder for static files and name it "static":
+
+```md
+your_project/
+│
+├── app.py
+├── static/
+│   ├── styles/
+│   │   └── style.css
+│   ├── scripts/
+│   │   └── script.js
+│   └── images/
+│       └── logo.png
+│
+├── templates/
+│   └── index.html
+```
+
+Now how to access the static files
+```html
+<!-- CSS files -->
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+```
+
+```html
+ <!-- Images -->
+<img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+```
+
+```html
+<!-- JavaScript files -->
+    <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+```
+
