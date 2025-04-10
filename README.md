@@ -417,8 +417,8 @@ class User(db.Model):
     def __repr__(self):
         return f'<User {self.username}>'
 ```
-> column_name = db.Column(column_datatype, ...optional_arguements)
-> `__init__`: You can define an `__init__` method, but you don't need to if you're just assigning attributes that match the model fields. SQLAlchemy auto-generates a default constructor unless you want custom behavior.
+> column_name = db.Column(column_datatype, ...optional_arguements) <br>
+> `__init__`: You can define an `__init__` method, but you don't need to if you're just assigning attributes that match the model fields. SQLAlchemy auto-generates a default constructor unless you want custom behavior. <br>
 > `__repr__`: Defines how the object is represented as a string (for debugging/logs)
 
 ### Creating a database
@@ -429,7 +429,7 @@ if __name__ == "__main__":
     app.run()
 ```
 
-## CRUD Example
+### CRUD Example
 ```python
 # CREATE
 new_user = User(username='john', email='john@example.com')
