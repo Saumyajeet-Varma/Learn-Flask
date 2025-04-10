@@ -62,7 +62,7 @@ You're telling Flask:
 > "Hey Flask, when someone visits the root URL /, run the home() function and return whatever it outputs as the response."
 
 ```python
-@app.route("/user/<name>")    # Dynamic routing
+@app.route("/user/<name>")  # Dynamic routing
 def user(name):
     return f"Hello {name}"
 ```
@@ -84,7 +84,7 @@ def test():
 ```python
 @app.route("/another-test")
 def test():
-    return redirect(url_for("user", name = "Samm"))    # Redirection to dynamic routes
+    return redirect(url_for("user", name = "Samm"))  # Redirection to dynamic routes
 ```
 
 
@@ -241,7 +241,7 @@ app.secret_key = 'your_secret_key_here'  # needed to use sessions
 from flask import Flask, session, redirect, url_for, request
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'
+app.secret_key = 'your_secret_key_here'
 
 @app.route('/')
 def home():
@@ -275,3 +275,35 @@ def logout():
 | `session.pop('key', None)`       | Remove a specific key from the session |
 | `session.clear()`                | Clear the entire session               |
 > session stores data in dictionary (key-value pair).
+
+### Permanent Session
+By default, Flask sessions last only until the browser is closed (they are temporary). <br>
+If you want a session to persist even after closing the browser, you can make it permanent.
+
+You just need to set:
+```python
+session.permanent = True
+```
+> You can also set the duration for how long the session should last.
+
+##### Example
+```python
+from flask import Flask, session, timedelta
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'
+
+# Set session lifetime (optional)
+app.permanent_session_lifetime = timedelta(days=7)
+
+@app.route('/login')
+def login():
+    session.permanent = True  # Mark this session as permanent
+    session['user'] = 'Alice'
+    return 'Logged in with a permanent session!'
+
+@app.route('/get')
+def get():
+    user = session.get('user')
+    return f'Hello, {user}' if user else 'No user logged in.'
+```
