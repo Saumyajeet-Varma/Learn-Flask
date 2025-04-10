@@ -1,5 +1,7 @@
 # Learn Flask
 
+
+
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [How to make a Website with Python](#01-how-to-make-a-website-with-python)
@@ -7,6 +9,7 @@
 - [Template Inheritance](#03-template-inheritance)
 - [HTTP Methods](#04-http-methods)
 - [Session](#05-session)
+- [Message Flashing](#06-message-flashing)
 
 
 
@@ -20,9 +23,7 @@ Flask is a micro web framework written in Python. It's used to build web applica
 - RESTful request handling.
 - Easily extendable with plugins (e.g., for databases, authentication, etc.).
 
-
 ### Basic code snippet to create a server using flask
-
 ```python
 from flask import Flask
 
@@ -67,7 +68,6 @@ def user(name):
     return f"Hello {name}"
 ```
 > <variable_name> is used in dynamic routing in Flask
-
 
 ### Redirection
 For redirection you need to import redirect and url_for from flask.
@@ -135,6 +135,8 @@ How to use template variable in HTML
 ```
 > {{ }} is used to show the value. <br> {% %} is used to write python code.
 
+
+
 ## 03) Template inheritance
 
 In this section we'll learn the concept of **Template inheritance**.
@@ -184,6 +186,8 @@ Template inheritance in Flask (via Jinja2) allows you to create a base HTML stru
 ### How it works
 > {% extends "base.html" %} tells Jinja to use the layout from base.html. <br> {% block %} tags in the base file are placeholders that the child templates fill in. <br> {% block block_name %}  a block name is an identifier you define inside the {% block ... %} tag. It's like a placeholder section in your base template that child templates can override or fill in.
 
+
+
 ## 04) HTTP methods
 
 In this section we'll learn about **HTTP methods** in Flask.
@@ -220,6 +224,8 @@ def index():
     '''
 ```
 > GET shows the form. <br> POST handles the form submission and greets the user.
+
+
 
 ## 05) Session
 
@@ -284,7 +290,7 @@ You just need to set:
 ```python
 session.permanent = True
 ```
-> You can also set the duration for how long the session should last.
+> You can also set the duration for how long the session should last. By default it is 31 days
 
 ##### Example
 ```python
@@ -306,4 +312,65 @@ def login():
 def get():
     user = session.get('user')
     return f'Hello, {user}' if user else 'No user logged in.'
+```
+
+
+
+## 06) Message flashing
+
+In this section we'll learn about **Message Flashing** in Flask.
+
+Flashing is a way to send a message to the next request, usually used to display status messages like:
+- ✅ “You have successfully logged in.”
+- ❌ “Invalid password.”
+- ⚠️ “Please fill all required fields.”
+
+### Example
+```python
+from flask import Flask, flash, redirect, render_template, request, session, url_for
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'  # required for flashing
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = request.form['username']
+        if user == 'admin':
+            flash('Login successful!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Invalid username!', 'error')
+            return redirect(url_for('login'))
+    return render_template('login.html')
+
+@app.route('/home')
+def home():
+    return render_template('home.html')
+```
+
+###  In Your Template (home.html, login.html, etc.):
+```python
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul>
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+```
+
+### Flash Message Categories (Optional but useful!)
+| Category   | Purpose                     | Example Usage                            |
+|------------|-----------------------------|-------------------------------------------|
+| `success`  | For positive feedback        | `flash("Logged in successfully!", "success")` |
+| `error`    | For error messages           | `flash("Invalid password!", "error")`        |
+| `warning`  | For caution or alerts        | `flash("Your session is about to expire.", "warning")` |
+| `info`     | For general information      | `flash("New feature launched!", "info")`     |
+
+##### Used like this:
+```python
+flash("Something went wrong!", "error")
 ```
