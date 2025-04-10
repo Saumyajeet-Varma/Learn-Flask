@@ -6,6 +6,7 @@
 - [HTML Templates](#02-html-templates)
 - [Template Inheritance](#03-template-inheritance)
 - [HTTP Methods](#04-http-methods)
+- [Session](#05-session)
 
 
 
@@ -219,3 +220,58 @@ def index():
     '''
 ```
 > GET shows the form. <br> POST handles the form submission and greets the user.
+
+## 05) Session
+
+In this section we'll learn about **session** in Flask
+
+In Flask, a session is used to store information across requests for a single user—like login status, user preferences, or shopping cart items. <br>
+It’s basically a temporary storage mechanism that persists between different pages/views for the same user.
+
+###  Setup: Set the secret key
+```python
+from flask import Flask, session
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'  # needed to use sessions
+```
+
+### Example: Using session to store login info
+```python
+from flask import Flask, session, redirect, url_for, request
+
+app = Flask(__name__)
+app.secret_key = 'supersecretkey'
+
+@app.route('/')
+def home():
+    if 'username' in session:
+        return f"Welcome back, {session['username']}!"
+    return "You are not logged in. <a href='/login'>Login</a>"
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('home'))
+    return '''
+        <form method="post">
+            <input type="text" name="username" placeholder="Enter name">
+            <input type="submit">
+        </form>
+    '''
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('home'))
+```
+
+### Useful Session Operations
+| Operation                         | Description                            |
+|----------------------------------|----------------------------------------|
+| `session['key'] = value`         | Set a session value                    |
+| `session.get('key')`             | Get a session value                    |
+| `session.pop('key', None)`       | Remove a specific key from the session |
+| `session.clear()`                | Clear the entire session               |
+> session stores data in dictionary (key-value pair).
