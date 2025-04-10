@@ -12,6 +12,7 @@
 - [Message Flashing](#06-message-flashing)
 - [Using SQLAlchemy Database](#07-using-sqlalchemy-database)
 - [Handling Static Files](#08-handling-static-files)
+- [Blueprints and handling multiple python files](#09-blueprints-and-handling-multiple-python-files)
 
 
 
@@ -452,14 +453,14 @@ db.session.commit()
 
 ## 08) Handling static files
 
-In this section we'll learn how to handle **static files** in Flask
+In this section we'll learn how to handle **static files** in Flask.
 
 We create a separate folder for static files and name it "static":
 
 ```md
 your_project/
 │
-├── app.py
+├── main.py
 ├── static/
 │   ├── styles/
 │   │   └── style.css
@@ -479,12 +480,68 @@ Now how to access the static files
 ```
 
 ```html
- <!-- Images -->
-<img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
-```
-
-```html
 <!-- JavaScript files -->
 <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
 ```
 
+```html
+ <!-- Images -->
+<img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+```
+
+
+
+## 09) Blueprints and Handling multiple Python files
+
+In this section we'll learn about **Blueprints** in Flask.
+
+**Flask Blueprints** are a powerful way to organize your application into modular components, especially helpful as your app grows. Think of blueprints like “mini-apps” that can be plugged into the main Flask app.
+
+### Why Use Blueprints ?
+- Cleaner, modular code
+- Separate concerns (routes, templates, static files)
+- Easy to reuse and scale
+
+### Example Folder Structure with Blueprints
+```md
+your_project/
+│
+├── main.py
+├── static/
+├── templates/
+│
+├── admin/
+│   ├── admin.py
+│   ├── static/
+│   └── templates/
+```
+
+### Step-by-Step Guide
+
+#### 1. admin/admin.py — Define a Blueprint
+```python
+from flask import Blueprint, render_template
+
+admin = Blueprint("admin", __name__, static_folder="static", template_folder="templates")
+
+@admin.route('/')
+def admin_page():
+    return render_template('admin_page.html')
+
+```
+> Blueprint("blueprint_name", `__name__`, static_folder="path_to_static_folder", template_folder="patgh_to_template_folder")
+
+#### 2. main.py — Register the Blueprint
+```python
+from flask import Flask
+from admin.admin import admin
+
+app = Flask(__name__)
+app.register_blueprint(admin, url_prefix="/admin")
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+> register_blueprint("blueprint_name", url_prefix="/prefix_route") <br> *url_prefix is optional*
+
+> For better clarity checkout the code given in the [09 - Blueprints and Handling multiple Python files](https://github.com/Saumyajeet-Varma/Learn-Flask/tree/main/10%20-%20Handling%20multiple%20Python%20files)
