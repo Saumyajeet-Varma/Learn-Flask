@@ -5,6 +5,7 @@
 - [How to make a Website with Python](#01-how-to-make-a-website-with-python)
 - [HTML Templates](#02-html-templates)
 - [Template Inheritance](#03-template-inheritance)
+- [HTTP Methods](#04-http-methods)
 
 
 
@@ -48,7 +49,7 @@ app.run(debug=True)
 
 ## 01) How to make a website with Python
 
-In this section we'll learn how to create routes and redirection.
+In this section we'll learn how to create **routes** and **redirection**.
 
 ### Routing
 ```python
@@ -89,7 +90,7 @@ def test():
 
 ## 02) HTML templates
 
-In this section we'll learn how to render proper HTML template
+In this section we'll learn how to render proper **HTML template**.
 
 Create a directory in the root folder where your **main.py** is, name that directory **templates**. Inside templates create your HTML files.
 
@@ -180,6 +181,41 @@ Template inheritance in Flask (via Jinja2) allows you to create a base HTML stru
 ```
 
 ### How it works
-- {% extends "base.html" %} tells Jinja to use the layout from base.html.
-- {% block %} tags in the base file are placeholders that the child templates fill in.
-- {% block block_name %}  a block name is an identifier you define inside the {% block ... %} tag. It's like a placeholder section in your base template that child templates can override or fill in.
+> {% extends "base.html" %} tells Jinja to use the layout from base.html. <br> {% block %} tags in the base file are placeholders that the child templates fill in. <br> {% block block_name %}  a block name is an identifier you define inside the {% block ... %} tag. It's like a placeholder section in your base template that child templates can override or fill in.
+
+## 04) HTTP methods
+
+In this section we'll learn about **HTTP methods** in Flask.
+
+HTTP methods determine the type of request the client sends to the server.
+
+### Common HTTP Methods
+| Method | Use Case |
+|--------|----------|
+| GET    | Retrieve data from the server |
+| POST   | Submit data to the server |
+| PUT    | Update existing data |
+| DELETE | Delete data from the server |
+| PATCH  | Partially update data |
+
+Import request from flask to access the data sent by the client.
+```python
+from flask import request
+```
+
+
+### Flask Example with GET and POST
+```python
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        name = request.form['name']
+        return f"Hello, {name}!"
+    return '''
+        <form method="post">
+            <input type="text" name="name" placeholder="Enter your name">
+            <input type="submit">
+        </form>
+    '''
+```
+> GET shows the form. <br> POST handles the form submission and greets the user.
