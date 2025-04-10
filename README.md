@@ -26,6 +26,11 @@ Flask is a micro web framework written in Python. It's used to build web applica
 - RESTful request handling.
 - Easily extendable with plugins (e.g., for databases, authentication, etc.).
 
+### Install Flask
+```bash
+pip install flask
+```
+
 ### Basic code snippet to create a server using flask
 ```python
 from flask import Flask
