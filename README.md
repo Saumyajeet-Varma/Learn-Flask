@@ -10,6 +10,7 @@
 - [HTTP Methods](#04-http-methods)
 - [Session](#05-session)
 - [Message Flashing](#06-message-flashing)
+- [Using SQLAlchemy Database](#07-using-sqlalchemy-database)
 
 
 
@@ -376,4 +377,73 @@ def home():
 ##### Used like this:
 ```python
 flash("Something went wrong!", "error")
+```
+
+
+
+## 07) Using SQLAlchemy Database
+
+In this section we'll learn how to integrate **SQLAchemy** with Flask.
+
+To integrate **SQLAchemy**, we need to install **Flask-SQlAlchemy**
+```bash
+pip install flask-sqlalchemy
+```
+
+### Basic setup
+After Installing Flask_SQLAlchemy, we neet to set it up
+```python
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'  # or PostgreSQL/MySQL URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+```
+
+### Defining a model
+```python
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+```
+> column_name = db.Column(column_datatype, ...optional_arguements)
+> `__init__`: You can define an `__init__` method, but you don't need to if you're just assigning attributes that match the model fields. SQLAlchemy auto-generates a default constructor unless you want custom behavior.
+> `__repr__`: Defines how the object is represented as a string (for debugging/logs)
+
+### Creating a database
+```python
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()  # Creates tables based on the models
+    app.run()
+```
+
+## CRUD Example
+```python
+# CREATE
+new_user = User(username='john', email='john@example.com')
+db.session.add(new_user)
+db.session.commit()
+
+# READ
+user = User.query.filter_by(username='john').first()
+
+# UPDATE
+user.email = 'john.doe@example.com'
+db.session.commit()
+
+# DELETE
+db.session.delete(user)
+db.session.commit()
 ```
